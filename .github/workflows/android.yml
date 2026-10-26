@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -70,3 +73,20 @@ jobs:
             android/app/build/outputs/apk/**/*.apk
             android/app/build/outputs/bundle/**/*.aab
           if-no-files-found: error
+
+      - name: Prepare phone download
+        run: |
+          APK=$(ls android/app/build/outputs/apk/release/*.apk 2>/dev/null | head -1)
+          [ -z "$APK" ] && APK=$(ls android/app/build/outputs/apk/debug/*.apk | head -1)
+          cp "$APK" Applied.apk
+
+      # Publishes Applied.apk as a GitHub Release so it can be installed straight from:
+      # https://github.com/Andisa05/applied-job-tracker/releases/latest/download/Applied.apk
+      - name: Publish release for phone install
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Applied test build ${{ github.run_number }}
+          body: Tap Applied.apk below on your Android phone to install this test build.
+          files: Applied.apk
+          make_latest: true
