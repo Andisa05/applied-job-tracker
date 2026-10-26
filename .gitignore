@@ -1,0 +1,8 @@
+node_modules/
+dist/
+android/
+*.keystore
+*.jks
+keystore-secrets.txt
+store/*.png
+package-lock.json

@@ -1,0 +1,9 @@
+{
+  "appId": "com.andisamtshali.applied",
+  "appName": "Applied",
+  "webDir": "dist",
+  "android": { "backgroundColor": "#0b1f17" },
+  "plugins": {
+    "LocalNotifications": { "smallIcon": "ic_stat_applied", "iconColor": "#2bb673" }
+  }
+}
